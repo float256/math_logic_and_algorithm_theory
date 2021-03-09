@@ -52,6 +52,10 @@ void StartGearsMovement(Graph<GearState>& gearsGraph, bool& isBreak)
 	isBreak = false;
 	std::vector<int> unvisitedNodeNumbers = gearsGraph.GetAllNodeNumbers();
 
+	if (unvisitedNodeNumbers.size() == 0)
+	{
+		return;
+	}
 	gearsGraph.GetNode(1).NodeData = GearState::Clockwise;
 	consideredNodesQueue.push(1);
 	std::sort(unvisitedNodeNumbers.begin(), unvisitedNodeNumbers.end());
