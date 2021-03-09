@@ -16,7 +16,7 @@ private:
 	bool IsDeleteAllNodesAfterGraphDeleting = false;
 
 public:
-	bool IsAlreadyAdded(int nodeNumber)
+	bool IsAlreadyAdded(int nodeNumber) const
 	{
 		if (this->AllGraphNodes.find(nodeNumber) != this->AllGraphNodes.end())
 		{
@@ -61,10 +61,22 @@ public:
 		}
 	}
 
-	std::vector<int> GetAllNodeNumbers()
+	const NodeDataType& GetNodeData(int nodeNumber) const
+	{
+		if (this->IsAlreadyAdded(nodeNumber))
+		{
+			return this->AllGraphNodes.at(nodeNumber).NodeData;
+		}
+		else
+		{
+			throw std::invalid_argument("Node with selected name doesn't exist.");
+		}
+	}
+
+	std::vector<int> GetAllNodeNumbers() const
 	{
 		std::vector<int> allNodeNames;
-		for (std::pair<std::string, GraphNode<NodeDataType>> &element : this->AllGraphNodes)
+		for (const std::pair<const int, GraphNode<NodeDataType>> &element : this->AllGraphNodes)
 		{
 			allNodeNames.push_back(element.first);
 		}

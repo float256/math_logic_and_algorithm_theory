@@ -1,8 +1,8 @@
 #include "Graph/Graph.h"
+#include <algorithm>
 #include <exception>
 #include <iostream>
 #include <queue>
-#include <algorithm>
 
 enum class GearState
 {
@@ -20,7 +20,7 @@ void ReadLine(std::istream& inputStream)
 template <typename T>
 void EraseItem(std::vector<T>& vector, T itemForErasing)
 {
-	vector.erase(std::remove(vector.begin(), vector.end(), itemForErasing), vector.end());;
+	vector.erase(std::remove(vector.begin(), vector.end(), itemForErasing), vector.end());
 }
 
 void ReadGearsGraph(std::istream& inputStream, Graph<GearState>& gearsGraph)
@@ -62,7 +62,7 @@ void StartGearsMovement(Graph<GearState>& gearsGraph, bool& isBreak)
 		EraseItem<int>(unvisitedNodeNumbers, selectedNode.NodeNumber);
 		for (auto& currNodeNumber : selectedNode.GetAllConnections())
 		{
-			GraphNode<GearState> currNode = gearsGraph.GetNode(currNodeNumber);
+			GraphNode<GearState>& currNode = gearsGraph.GetNode(currNodeNumber);
 			isBreak = (selectedNode.NodeData != GearState::Immovable) && (selectedNode.NodeData == currNode.NodeData);
 			if (isBreak)
 			{
@@ -86,13 +86,43 @@ void StartGearsMovement(Graph<GearState>& gearsGraph, bool& isBreak)
 	}
 }
 
+void PrintGearsGraph(std::ostream& outputStream, const Graph<GearState>& gearsGraph)
+{
+	std::vector<int> allNodeNumbers = gearsGraph.GetAllNodeNumbers();
+	std::sort(allNodeNumbers.begin(), allNodeNumbers.end());
+	for (auto currNumber : allNodeNumbers)
+	{
+		switch (gearsGraph.GetNodeData(currNumber))
+		{
+		case GearState::Clockwise:
+			outputStream << "clockwise" << std::endl;
+			break;
+		case GearState::Anticlockwise:
+			outputStream << "unclockwise" << std::endl;
+			break;
+		case GearState::Immovable:
+			outputStream << "immovable" << std::endl;
+			break;
+		}
+	}
+}
+
 int main(int, char**)
 {
 	Graph<GearState> gearsGraph(false);
 	try
 	{
+		bool isBreak = false;
 		ReadGearsGraph(std::cin, gearsGraph);
-
+		StartGearsMovement(gearsGraph, isBreak);
+		if (isBreak)
+		{
+			std::cout << "break";
+		}
+		else
+		{
+			PrintGearsGraph(std::cout, gearsGraph);
+		}
 		return 0;
 	}
 	catch (std::exception& exception)

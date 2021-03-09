@@ -18,7 +18,7 @@ public:
 	NodeDataType NodeData = NodeDataType();
 	int NodeNumber;
 
-	bool IsConnected(const GraphNode<NodeDataType>& graphNode)
+	bool IsConnected(const GraphNode<NodeDataType>& graphNode) const
 	{
 		auto position = this->_nodeConnections.find(graphNode.NodeNumber);
 		if (position != this->_nodeConnections.end())
@@ -37,10 +37,10 @@ public:
 		}
 	}
 
-	std::vector<int> GetAllConnections()
+	std::vector<int> GetAllConnections() const
 	{
 		std::vector<int> allConnections;
-		for (std::pair<std::string, GraphNode<NodeDataType>>& element : this->_nodeConnections)
+		for (const std::pair<const int, std::reference_wrapper<GraphNode<NodeDataType>>>& element : this->_nodeConnections)
 		{
 			allConnections.push_back(element.first);
 		}
