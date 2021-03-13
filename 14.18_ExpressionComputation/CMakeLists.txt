@@ -6,4 +6,6 @@ set(CMAKE_CXX_STANDARD 11)
 add_executable(14_18_ExpressionComputation
         Entities/Literal.h
         Parser/Parser.cpp Parser/Parser.h
+        Convertor/Convertor.cpp Convertor/Convertor.h
+        Calculator/Calculator.cpp Calculator/Calculator.h
         main.cpp)

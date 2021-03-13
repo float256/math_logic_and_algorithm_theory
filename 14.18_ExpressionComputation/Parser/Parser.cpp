@@ -1,7 +1,3 @@
-//
-// Created by user on 10.03.2021.
-//
-
 #include "Parser.h"
 #include "../Entities/Literal.h"
 #include <string>
@@ -115,8 +111,15 @@ void Parse(std::string expression, std::vector<Literal>& expressionInLiterals)
 			expressionInLiterals.emplace_back(Literal(number, LiteralType::Number));
 			number.clear();
 		}
-		if ((currSymbol == '+') || (currSymbol == '-') || (currSymbol == '*') || (currSymbol == '/'))
+		if ((currSymbol == '+') || (currSymbol == '-') || (currSymbol == '*') || (currSymbol == '/') || (currSymbol=='^'))
 		{
+			bool isSingleSigh = expressionInLiterals.empty()
+				|| ((expressionInLiterals[expressionInLiterals.size() - 1].Value == "(")
+					&& ((currSymbol == '+') || (currSymbol == '-')));
+			if (isSingleSigh)
+			{
+				expressionInLiterals.emplace_back(Literal("0", LiteralType::Number));
+			}
 			expressionInLiterals.emplace_back(Literal(std::string(1, currSymbol), LiteralType::Sigh));
 		}
 		if ((currSymbol == '(') || (currSymbol == ')'))
