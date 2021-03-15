@@ -28,7 +28,8 @@ std::vector<Literal> ConvertExpressionToPostfixForm(const std::vector<Literal>& 
 			{
 				stack.push(currLiteral);
 			}
-			else if (OperationPriority[currLiteral.Value[0]] > OperationPriority[stack.top().Value[0]])
+			else if ((OperationPriority[currLiteral.Value[0]] > OperationPriority[stack.top().Value[0]])
+				|| (currLiteral.Value == "^"))
 			{
 				stack.push(currLiteral);
 			}
