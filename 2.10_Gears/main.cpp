@@ -121,7 +121,7 @@ int main(int, char**)
 		StartGearsMovement(gearsGraph, isBreak);
 		if (isBreak)
 		{
-			std::cout << "break";
+			std::cout << "block";
 		}
 		else
 		{
